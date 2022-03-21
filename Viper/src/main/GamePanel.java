@@ -50,6 +50,10 @@ public class GamePanel extends JPanel implements Runnable{
             // as long as the gameThread is running
             // System.out.println("Gane loop is running");
 
+            // restrict rendering to a only a few per seconds, else will result in millions of tiles moved per second
+            long currentTime = System.nanoTime();                   // curr time in nanoseconds
+            System.out.println("current time: "+currentTime); 
+
             // Update Game's instance
             update();
             // Draw the updated instance
@@ -74,7 +78,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // Graphics is n inbuild awt class used to render/draw objects onto the screen/window
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);                // super => parent, i.e. JPanel 
+        super.paintComponent(g);                // super => parent, i.e. JPanel
         Graphics2D g2 = (Graphics2D)g;          // typecasting Graphics g to Graphics2D
 
         g2.setColor(Color.white);               // set color to white
