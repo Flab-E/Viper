@@ -1,6 +1,6 @@
 package main;
-
 import javax.swing.JPanel;
+import entity.Player;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable{
     // screen settings
     final int originalTileSize = 16;                    // 16x16 pixels is the size of tile
     final int scale = 3;                                // this is to handle higher resolution systems were tile size becomes too small
-    final int tileSize = originalTileSize * scale;      // 48x48
+    public final int tileSize = originalTileSize * scale;      // 48x48
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol;        // 768 pixels ==> 16 tiles
@@ -21,6 +21,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;                                      // for game render loop
+    Player player = new Player(this, keyH);
+
+    // FPS
+    int fps = 60;
 
     // set player's default position
     int playerx = 100;
@@ -46,42 +50,50 @@ public class GamePanel extends JPanel implements Runnable{
     // for execution in that thread
     @Override
     public void run() {
-        while(gameThread != null) {
-            // as long as the gameThread is running
-            // System.out.println("Gane loop is running");
 
-            // restrict rendering to a only a few per seconds, else will result in millions of tiles moved per second
-            long currentTime = System.nanoTime();                   // curr time in nanoseconds
-            System.out.println("current time: "+currentTime); 
+        // Delat Accumulator method for game loop:
+        double drawInterval = 1000000000/fps;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+        // to display fps
+        long timer = 0;
+        int drawCount = 0;
 
-            // Update Game's instance
-            update();
-            // Draw the updated instance
-            repaint();                                  // this is how the graphics paint component method is called
+        while(gameThread != null)  {
+            currentTime = System.nanoTime();
+            delta += (currentTime-lastTime) / drawInterval;
+            timer += (currentTime - lastTime);
+            lastTime = currentTime;
+
+            if(delta>=1) {
+                update();
+                repaint();
+                delta--;
+                drawCount++;
+            }
+
+            if (timer>=1000000000) {
+                System.out.println("FPS: "+drawCount);
+                drawCount = 0;
+                timer = 0;
+            }
         }
+        
+        update();
+        repaint();
+         
     }
 
     public void update() {
-        if(keyH.upPressed == true) {
-            playery -= playerSpeed;                     // player moves up by 4 pixels
-        }
-        if(keyH.downPressed == true) {
-            playery += playerSpeed;                     // player moves down by 4 pixels
-        }
-        if(keyH.rightPressed == true) {
-            playerx += playerSpeed;                     // player moves right by 4 pixels
-        }
-        if(keyH.leftPressed == true) {
-            playerx -= playerSpeed;                     // player moves left by 4 pixels
-        }
+        player.update();
     }
 
     // Graphics is n inbuild awt class used to render/draw objects onto the screen/window
     public void paintComponent(Graphics g) {
         super.paintComponent(g);                // super => parent, i.e. JPanel
         Graphics2D g2 = (Graphics2D)g;          // typecasting Graphics g to Graphics2D
-
-        g2.setColor(Color.white);               // set color to white
-        g2.fillRect(playerx, playery, tileSize, tileSize);       // create a rectangle of 1 tile at 100,100
+        player.draw(g2);
+        g2.dispose();
     }
 }
