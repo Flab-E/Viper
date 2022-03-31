@@ -1,11 +1,8 @@
 package entity;
 import main.GamePanel;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
-
 import javax.imageio.ImageIO;
 
 public class Player extends Entity {
@@ -30,7 +27,7 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/boy_up_1.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
             down1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
             down2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
@@ -45,6 +42,20 @@ public class Player extends Entity {
     }
 
     public void update() {
+        // update sprite animation every 10 ticks
+        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
+            if(animation_count == max_animation_count){
+                if(animation_state == 1) {
+                    animation_state = 2;
+                } else {
+                    animation_state = 1;
+                }
+                animation_count = 0;
+            } else {
+                animation_count++;
+            }
+        }
+
         if(keyH.upPressed == true) {
             direction = "up";
             y -= speed;                     // player moves up by 4 pixels
@@ -71,16 +82,32 @@ public class Player extends Entity {
         BufferedImage image = null;
         switch(direction) {
             case "up":
-                image = up1;
+                if(animation_state == 1){ 
+                    image = up1;
+                } else {
+                    image = up2;
+                }
                 break;
             case "down":
-                image = down1;
+                if(animation_state == 1){
+                    image = down1;
+                } else {
+                    image = down2;
+                }
                 break;
             case "left":
-                image = left1;
+                if(animation_state == 1){
+                    image = left1;
+                } else {
+                    image = left2;
+                }
                 break;
             case "right":
-                image=right1;
+                if(animation_state == 1){
+                    image = right1;
+                } else {
+                    image = right2;
+                }
                 break;
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
