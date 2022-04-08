@@ -26,6 +26,7 @@ public class TileManager {
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/assets/tiles/water.png"));
+            tile[2].collision = true;
 
             tile[3] = new Tile();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/assets/tiles/earth.png"));
@@ -35,6 +36,7 @@ public class TileManager {
 
             tile[5] = new Tile();
             tile[5].image = ImageIO.read(getClass().getResourceAsStream("/assets/tiles/tree.png"));
+            tile[5].collision = true;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,20 +50,26 @@ public class TileManager {
     
         //drawing tiles as a matrix
         int[][] draw_arr = {
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-            {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+            {1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1},
+            {1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2},
+            {2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2},
         };
-        g2.drawImage(tile[0].image, 0, 0, gp.tileSize, gp.tileSize, null);
+
+        for(int y=0; y<12; y++) {
+            for(int x=0; x<16; x++){
+                g2.drawImage(tile[draw_arr[y][x]].image, x*48, y*48, gp.tileSize, gp.tileSize, null);
+            }
+        }
+
+        // g2.drawImage(tile[0].image, 0, 0, gp.tileSize, gp.tileSize, null);
     }
 }
