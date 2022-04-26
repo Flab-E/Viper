@@ -1,6 +1,10 @@
 package tile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import java.awt.Graphics2D;
@@ -8,11 +12,23 @@ import java.awt.Graphics2D;
 public class TileManager {
     GamePanel gp;
     Tile[] tile;
+    int mapLayout[][];
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
+        
         tile = new Tile[10];
+        mapLayout = new int[gp.maxScreenRow][gp.maxScreenCol];
+
         getTileImage();
+        loadMap();
+
+        for(int i=0; i<gp.maxScreenRow; i++) {
+            for(int j=0; j<gp.maxScreenCol; j++) {
+                System.out.print(this.mapLayout[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 
     public void getTileImage() {
@@ -43,30 +59,41 @@ public class TileManager {
         }
     }
 
+    public void loadMap() {
+        try {
+            InputStream is = getClass().getResourceAsStream("/maps/map01");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            int col=0;
+            int row=0;
+
+            while(row<gp.maxScreenRow) {
+                col = 0;
+                String line = br.readLine();
+                String nums[] = line.split(" ");
+                while(col<gp.maxScreenCol){
+                    int num = Integer.parseInt(nums[col]);
+                    this.mapLayout[row][col] = num;
+                    col++;    
+                }
+                row++;
+            }
+            br.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void draw(Graphics2D g2) {
 
         // g2.setColor(Color.white);               // set color to white
         // g2.fillRect(x, y, gp.tileSize, gp.tileSize);       // create a rectangle of 1 tile at 100,100
     
         //drawing tiles as a matrix
-        int[][] draw_arr = {
-            {1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1},
-            {1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-            {2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2},
-            {2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2},
-        };
 
         for(int y=0; y<12; y++) {
             for(int x=0; x<16; x++){
-                g2.drawImage(tile[draw_arr[y][x]].image, x*48, y*48, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(tile[this.mapLayout[y][x]].image, x*48, y*48, gp.tileSize, gp.tileSize, null);
             }
         }
 
