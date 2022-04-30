@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;                                      // for game render loop
     Player player = new Player(this, keyH);
     TileManager tileM = new TileManager(this);
+    public CollisionChecker cChecker = new CollisionChecker(this);
 
     // FPS
     int fps = 60;
@@ -97,10 +98,8 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);                // super => parent, i.e. JPanel
         Graphics2D g2 = (Graphics2D)g;          // typecasting Graphics g to Graphics2D
 
-
         tileM.draw(g2);
-        player.draw(g2);
-        
+        player.draw(g2);        
         
         g2.dispose();
     }

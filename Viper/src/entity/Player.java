@@ -1,9 +1,11 @@
 package entity;
 import main.GamePanel;
+import java.awt.Rectangle;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+
 
 public class Player extends Entity {
 
@@ -14,15 +16,20 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+
         setDefaultValues();
         getPlayerImage();
-        direction = "down";
     }
     
     public void setDefaultValues() {
         x = 100;
         y = 100;
         speed = 4;
+        direction = "down";
     }
 
     public void getPlayerImage() {
@@ -72,6 +79,10 @@ public class Player extends Entity {
             direction = "left";
             x -= speed;                     // player moves left by 4 pixels
         }
+
+        // check for collision
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
     }
 
     public void draw(Graphics2D g2) {
