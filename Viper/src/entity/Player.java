@@ -17,21 +17,20 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
-        playerLength = 5;
-        this.solidAreas = new Rectangle[playerLength];
-        for(int i = 0; i < playerLength; i++){
-            this.solidAreas[i] = new Rectangle(8,16-i,32,32);
-        }
-
-        solidArea = solidAreas[0];
-
         setDefaultValues();
         getPlayerImage();
     }
     
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        playerLength = 5;
+        this.solidAreas = new Rectangle[playerLength];
+        for(int i = 0; i < playerLength; i++){
+            this.solidAreas[i] = new Rectangle((10-i)*gp.tileSize,5*gp.tileSize,32,32);
+        }
+
+        solidArea = solidAreas[0];
+        x = solidArea.x;
+        y = solidArea.y;
         speed = 4;
         direction = "down";
     }
