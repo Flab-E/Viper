@@ -11,19 +11,19 @@ public class Player extends Entity {
 
     GamePanel gp;
     main.KeyHandler keyH;
-    int hasKey;
+    int ateFood;
 
     public Player(GamePanel gp, main.KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
 
-        solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidAreaDefaultX =solidArea.x;
-        solidAreaDefaultY=solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        playerLength = 5;
+        this.solidAreas = new Rectangle[playerLength];
+        for(int i = 0; i < playerLength; i++){
+            this.solidAreas[i] = new Rectangle(8,16-i,32,32);
+        }
+
+        solidArea = solidAreas[0];
 
         setDefaultValues();
         getPlayerImage();
@@ -99,8 +99,8 @@ public class Player extends Entity {
         if(i != 999) {
             gp.playSE(0);
             gp.obj[i] = null;
-            hasKey++;
-            System.out.println("Score ="+hasKey);
+            ateFood++;
+            System.out.println("Score ="+ateFood);
         }
     }
 
@@ -139,6 +139,9 @@ public class Player extends Entity {
                     image = right2;
                 }
                 break;
+        }
+        for(int i=0; i<playerLength; i++) {
+            g2.drawImage(image, solidAreas[i].x, solidAreas[i].y, gp.tileSize, gp.tileSize, null);
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
