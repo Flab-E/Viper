@@ -11,8 +11,8 @@ import java.awt.Graphics2D;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
-    int mapLayout[][];
+    public Tile[] tile;
+    public int mapLayout[][];
 
     public TileManager(GamePanel gp) {
         this.gp = gp;

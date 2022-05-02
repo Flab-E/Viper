@@ -1,6 +1,7 @@
 package main;
 import javax.swing.JPanel;
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import java.awt.Dimension;
@@ -18,13 +19,16 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tileSize = originalTileSize * scale;      // 48x48
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
-    public final int screenWidth = tileSize * maxScreenCol;        // 768 pixels ==> 16 tiles
-    public final int screenHeight = tileSize * maxScreenRow;       // 576 pixel ==> 12 tiles
+    public final int screenWidth = tileSize * maxScreenCol;                     // 768 pixels ==> 16 tiles
+    public final int screenHeight = tileSize * maxScreenRow;                    // 576 pixel ==> 12 tiles
 
     KeyHandler keyH = new KeyHandler();
-    Thread gameThread;                                      // for game render loop
-    Player player = new Player(this, keyH);
-    TileManager tileM = new TileManager(this);
+    Thread gameThread;                                                          // for game render loop
+    public Player player = new Player(this, keyH);
+    public TileManager tileM = new TileManager(this);
+    public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
+    public SuperObject obj[] = new SuperObject[5];                             // 5 slots o objects in the game
 
     // FPS
     int fps = 60;
@@ -40,6 +44,10 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);                                           // JPanel's double buffer helps better rendering
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+        aSetter.setObject();
     }
 
     public void startGameThread() {
@@ -97,10 +105,13 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);                // super => parent, i.e. JPanel
         Graphics2D g2 = (Graphics2D)g;          // typecasting Graphics g to Graphics2D
 
-
         tileM.draw(g2);
-        player.draw(g2);
-        
+        for(int i =0; i<obj.length; i++) {
+            if(obj[i] != null) {
+                obj[i].draw(g2, this);
+            }
+        }
+        player.draw(g2);        
         
         g2.dispose();
     }

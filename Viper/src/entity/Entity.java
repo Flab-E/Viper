@@ -1,5 +1,6 @@
 package entity;
-
+    
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Entity {
@@ -14,4 +15,7 @@ public class Entity {
     public int animation_state = 1;
     public int animation_count = 0;
     public int max_animation_count=10;
+
+    public Rectangle solidArea;
+    public boolean collisionOn = false;
 }
