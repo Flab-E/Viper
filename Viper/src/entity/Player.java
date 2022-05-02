@@ -97,6 +97,7 @@ public class Player extends Entity {
     }
     public void pickUpObject(int i) {
         if(i != 999) {
+            gp.playSE(0);
             gp.obj[i] = null;
             hasKey++;
             System.out.println("Score ="+hasKey);

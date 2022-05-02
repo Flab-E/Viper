@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public SuperObject obj[] = new SuperObject[5];                             // 5 slots o objects in the game
+    Sound sound = new Sound();
 
     // FPS
     int fps = 60;
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame() {
         aSetter.setObject();
+        playMusic(2);
     }
 
     public void startGameThread() {
@@ -114,5 +116,20 @@ public class GamePanel extends JPanel implements Runnable{
         player.draw(g2);        
         
         g2.dispose();
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 }
