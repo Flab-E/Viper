@@ -6,7 +6,7 @@ public class CollisionChecker {
     GamePanel gp;
 
     public CollisionChecker(GamePanel gp) {
-        this.gp = gp
+        this.gp = gp;
     }
 
     public void checkTile(Entity entity) {
@@ -26,34 +26,58 @@ public class CollisionChecker {
         switch(entity.direction) {
             case "up":
                 entityTopRow = (entityTopx - entity.speed)/gp.tileSize;
-                tileNum1 = gp.TileM.mapLayout[entityTopRow][entityLeftCol];
-                tileNum2 = gp.TileM.mapLayout[entityTopRow][entityRightCol];
-                if(gp.TileM.tile[tileNum1].collision == true || gp.TileM.tile[tileNum2].collision == true){
+                if(entityTopRow < 0) {
+                    // map boundary
                     entity.collisionOn = true;
+                } else {
+                    tileNum1 = gp.tileM.mapLayout[entityTopRow][entityLeftCol];
+                    tileNum2 = gp.tileM.mapLayout[entityTopRow][entityRightCol];
+                    if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
+                        // Collision detected
+                        entity.collisionOn = true;
+                    }
                 }
                 break;
             case "down":
-                entityTopRow = (entityTopx - entity.speed)/gp.tileSize;
-                tileNum1 = gp.TileM.mapLayout[entityTopRow][entityLeftCol];
-                tileNum2 = gp.TileM.mapLayout[entityTopRow][entityRightCol];
-                if(gp.TileM.tile[tileNum1].collision == true || gp.TileM.tile[tileNum2].collision == true){
+                entityBottomRow = (entityBottomx + (entity.speed))/gp.tileSize;
+                if(entityBottomRow >= 12){
+                    // map boundary
                     entity.collisionOn = true;
+                } else {
+                    tileNum1 = gp.tileM.mapLayout[entityBottomRow][entityLeftCol];
+                    tileNum2 = gp.tileM.mapLayout[entityBottomRow][entityRightCol];
+                    if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
+                        // collision detected
+                        entity.collisionOn = true;
+                    }
                 }
                 break;
             case "right":
-                entityTopRow = (entityTopx - entity.speed)/gp.tileSize;
-                tileNum1 = gp.TileM.mapLayout[entityTopRow][entityLeftCol];
-                tileNum2 = gp.TileM.mapLayout[entityTopRow][entityRightCol];
-                if(gp.TileM.tile[tileNum1].collision == true || gp.TileM.tile[tileNum2].collision == true){
+                entityRightCol = (entityRightX + entity.speed)/gp.tileSize;
+                if(entityRightCol >= 16){
+                    // map boundary
                     entity.collisionOn = true;
+                } else {
+                    tileNum1 = gp.tileM.mapLayout[entityTopRow][entityRightCol];
+                    tileNum2 = gp.tileM.mapLayout[entityBottomRow][entityRightCol];
+                    if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
+                        // collision detected
+                        entity.collisionOn = true;
+                    }
                 }
                 break;
             case "left":
-                entityTopRow = (entityTopx - entity.speed)/gp.tileSize;
-                tileNum1 = gp.TileM.mapLayout[entityTopRow][entityLeftCol];
-                tileNum2 = gp.TileM.mapLayout[entityTopRow][entityRightCol];
-                if(gp.TileM.tile[tileNum1].collision == true || gp.TileM.tile[tileNum2].collision == true){
+                entityLeftCol = (entityLeftX - entity.speed)/gp.tileSize;
+                if(entityLeftCol < 0){
+                    // map boundary
                     entity.collisionOn = true;
+                } else {
+                    tileNum1 = gp.tileM.mapLayout[entityTopRow][entityLeftCol];
+                    tileNum2 = gp.tileM.mapLayout[entityBottomRow][entityLeftCol];
+                    if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
+                        // collision detected
+                        entity.collisionOn = true;
+                    }
                 }
                 break;
 

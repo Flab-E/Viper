@@ -20,6 +20,7 @@ public class Player extends Entity {
         solidArea.x = 8;
         solidArea.y = 16;
         solidArea.width = 32;
+        solidArea.height = 32;
 
         setDefaultValues();
         getPlayerImage();
@@ -49,8 +50,26 @@ public class Player extends Entity {
     }
 
     public void update() {
-        // update sprite animation every 10 ticks
-        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
+
+        if(keyH.upPressed == true) {
+            direction = "up";
+        }
+        if(keyH.downPressed == true) {
+            direction = "down";
+        }
+        if(keyH.rightPressed == true) {
+            direction = "right";
+        }
+        if(keyH.leftPressed == true) {
+            direction = "left";
+        }
+
+        // check for collision
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+
+        // if collision player can move
+        if(collisionOn == false){
             if(animation_count == max_animation_count){
                 if(animation_state == 1) {
                     animation_state = 2;
@@ -61,28 +80,13 @@ public class Player extends Entity {
             } else {
                 animation_count++;
             }
+            switch(direction) {
+                case "up": y -= speed; break;
+                case "down": y += speed; break;
+                case "right": x += speed; break;
+                case "left": x -= speed; break;
+            }
         }
-
-        if(keyH.upPressed == true) {
-            direction = "up";
-            y -= speed;                     // player moves up by 4 pixels
-        }
-        if(keyH.downPressed == true) {
-            direction = "down";
-            y += speed;                     // player moves down by 4 pixels
-        }
-        if(keyH.rightPressed == true) {
-            direction = "right";
-            x += speed;                     // player moves right by 4 pixels
-        }
-        if(keyH.leftPressed == true) {
-            direction = "left";
-            x -= speed;                     // player moves left by 4 pixels
-        }
-
-        // check for collision
-        collisionOn = false;
-        gp.cChecker.checkTile(this);
     }
 
     public void draw(Graphics2D g2) {
