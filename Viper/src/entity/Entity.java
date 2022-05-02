@@ -17,5 +17,6 @@ public class Entity {
     public int max_animation_count=10;
 
     public Rectangle solidArea;
+    public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
 }

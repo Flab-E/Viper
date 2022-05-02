@@ -11,6 +11,7 @@ public class Player extends Entity {
 
     GamePanel gp;
     main.KeyHandler keyH;
+    int hasKey;
 
     public Player(GamePanel gp, main.KeyHandler keyH){
         this.gp = gp;
@@ -19,6 +20,8 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX =solidArea.x;
+        solidAreaDefaultY=solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
 
@@ -68,6 +71,10 @@ public class Player extends Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this);
 
+        // check obj collision
+        int objIndex= gp.cChecker.checkObject(this, true);
+        pickUpObject(objIndex);
+
         // if collision player can move
         if(collisionOn == false){
             if(animation_count == max_animation_count){
@@ -86,6 +93,13 @@ public class Player extends Entity {
                 case "right": x += speed; break;
                 case "left": x -= speed; break;
             }
+        }
+    }
+    public void pickUpObject(int i) {
+        if(i != 999) {
+            gp.obj[i] = null;
+            hasKey++;
+            System.out.println("Score ="+hasKey);
         }
     }
 
