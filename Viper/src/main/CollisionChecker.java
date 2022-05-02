@@ -86,15 +86,15 @@ public class CollisionChecker {
     public int checkObject(Entity entity, boolean player)
     {
         int index=999;
-        for(int i=0;i<gp.obj.lenght; i++) {
+        for(int i=0;i<gp.obj.length; i++) {
             if(gp.obj[i]!= null) {
                 //entity solid area position
-                entity.solidArea.x = entity.worldX + entity.solidArea.x;
-                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+                entity.solidArea.x = entity.x + entity.solidArea.x;
+                entity.solidArea.y = entity.y + entity.solidArea.y;
 
                 //object solid area position
-                gp.obj[i].solidArea.x = gp.obj[i].worldX + gp.solidArea.x;
-                gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.solidArea.y;
+                gp.obj[i].solidArea.x = gp.obj[i].worldX + gp.obj[i].solidArea.x;
+                gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.obj[i].solidArea.y;
 
                 switch(entity.direction) {
                     case "up":

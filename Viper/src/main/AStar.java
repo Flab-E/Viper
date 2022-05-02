@@ -1,4 +1,4 @@
-package a_star.java.simple;
+package main;
 
 import java.util.Arrays;
 
