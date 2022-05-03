@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
     Sound music = new Sound();
     Sound se = new Sound();
     public final int titleState = 0;
-    public int gameState=titleState;
+    public int gameState=1;
     
 
     // FPS
@@ -57,12 +57,12 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void scoreScreen(Graphics2D g2) {
+        int y = (int)((maxScreenRow-1.6)*tileSize);
         int x = 0*tileSize;
-        int y = 0*tileSize;
-        int width = 3*tileSize;
-        int height = 1*tileSize;
+        int width = 4*tileSize;
+        int height = (int)(1.5*tileSize);
         
-        Color c = new Color(0, 0, 0, 100);
+        Color c = new Color(0, 0, 0, 150);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 35, 35);
 
@@ -71,12 +71,14 @@ public class GamePanel extends JPanel implements Runnable{
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(x+1, y+1, width-2, height-2, 35, 35);
 
-        String scoreStr = "Score:  " + player.hasKey;
-        String levelStr = "Level:  " + player.level;
+        String scoreStr = "Score:        " + player.hasKey;
+        String levelStr = "Level:        " + player.level;
+        String highScore = "High Score:  " + player.highScore;
         x += tileSize/2;
         y += tileSize/2;
         g2.drawString(scoreStr, x, y);
-        g2.drawString(levelStr, x, y+10);
+        g2.drawString(levelStr, x, y+12);
+        g2.drawString(highScore, x, y+24);
     }
 
     public void setupGame() {
@@ -138,17 +140,14 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         // if food does not exist genFood
         if(foodExists == false) {
-            // probabilty of 0.3
-            if(Math.random() < 0.3) {
-                foodExists = true;
-                aSetter.genFood(this, player);
-            }
+            foodExists = true;
+            aSetter.genFood(this, player);
         }
         // if bomb does not exist genbomb
         for(int i = 0; i<bombNo; i++){
             if(bombsExist[i] == false) {
                 bombsExist[i] = true;
-                aSetter.genBomb(this, player, 1);
+                aSetter.genBomb(this, player, i+1);
             }
         }
         player.update();
@@ -167,10 +166,13 @@ public class GamePanel extends JPanel implements Runnable{
         else{
             // tile
         tileM.draw(g2);
-        for(int i =0; i<obj.length; i++) {
+        for(int i =1; i<obj.length; i++) {
             if(obj[i] != null) {
                 obj[i].draw(g2, this);
             }
+        }
+        if(obj[0] != null){
+            obj[0].draw(g2, this);
         }
         player.draw(g2);
         scoreScreen(g2);       

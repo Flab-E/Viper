@@ -13,6 +13,7 @@ public class Player extends Entity {
     main.KeyHandler keyH;
     public int hasKey;
     public int level;
+    public int highScore;
 
     public Player(GamePanel gp, main.KeyHandler keyH){
         this.gp = gp;
@@ -38,6 +39,7 @@ public class Player extends Entity {
         direction = "down";
         hasKey = 10;
         level = 1;
+        highScore = hasKey;
     }
 
     public void getPlayerImage() {
@@ -106,17 +108,20 @@ public class Player extends Entity {
                 gp.playSE(0);
                 gp.obj[i] = null;
                 hasKey++;
+                if(highScore < hasKey) {
+                    highScore = hasKey;
+                }
                 gp.foodExists = false;
-                System.out.println("Score ="+hasKey);
+                //System.out.println("Score ="+hasKey);
                 this.speedCounter++;
                 if(speedCounter == 4) {
                     speedCounter = 0;
                     speed++;
                 }
-                if (speed%8 == 0) {
+                if (hasKey%12 == 0) {
                     level++;
                 }
-                if(level%5 == 0) {
+                if(hasKey%20 == 0) {
                     gp.bombNo++;
                     if(gp.bombNo>9) {
                         gp.bombNo = 9;
@@ -132,7 +137,7 @@ public class Player extends Entity {
                         gp.bombsExist[i-1] = false;
                     }
                 }
-                System.out.println("Score ="+hasKey);
+                //System.out.println("Score ="+hasKey);
                 if(hasKey<0) {
                     hasKey = 0;
                 }
