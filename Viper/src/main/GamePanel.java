@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int bombNo = 1;
     public boolean bombsExist[] = new boolean[10];
 
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;                                                          // for game render loop
     public Player player = new Player(this, keyH);
     public TileManager tileM = new TileManager(this);
