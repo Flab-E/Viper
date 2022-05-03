@@ -25,7 +25,6 @@ public class SuperObject {
         y = (int)(Math.random()*(gp.maxScreenCol-1));
         boolean valid = false;
         while(!valid) {
-            System.out.println(x+" "+y);
             if(gp.tileM.mapLayout[x][y]==0 || gp.tileM.mapLayout[x][y]==3 || (entity.x==x && entity.y==y)) {
                 valid = true;
                 break;

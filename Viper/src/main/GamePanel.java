@@ -22,7 +22,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenWidth = tileSize * maxScreenCol;                     // 768 pixels ==> 16 tiles
     public final int screenHeight = tileSize * maxScreenRow;                    // 576 pixel ==> 12 tiles
     public boolean foodExists = false;
-    public boolean bombExists = false;
+    public boolean bomb1Exists = false;
+    public boolean bomb2Exists = false;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;                                                          // for game render loop
@@ -52,7 +53,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame() {
         foodExists = true;
-        bombExists = true;
+        bomb1Exists = true;
+        bomb2Exists = true;
         aSetter.setObject(this, player);
         playMusic(2);
     }
@@ -113,9 +115,13 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         // if bomb does not exist genbomb
-        if(bombExists == false) {
-                bombExists = true;
-                aSetter.genBomb(this, player);
+        if(bomb1Exists == false) {
+                bomb1Exists = true;
+                aSetter.genBomb(this, player, 1);
+        }
+        if(bomb2Exists == false) {
+                bomb2Exists = true;
+                aSetter.genBomb(this, player, 2);
         }
         player.update();
     }

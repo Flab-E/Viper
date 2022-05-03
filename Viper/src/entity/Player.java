@@ -115,7 +115,8 @@ public class Player extends Entity {
             if(gp.obj[i] != null && gp.obj[i].name.equals("Bomb")) {
                 gp.obj[i] = null;
                 hasKey--;
-                gp.bombExists = false;
+                if(i==1) gp.bomb1Exists = false;
+                if(i==2) gp.bomb2Exists = false;
                 System.out.println("Score ="+hasKey);
                 if(hasKey<0) {
                     hasKey = 0;
