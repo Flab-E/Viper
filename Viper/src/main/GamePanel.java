@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
     Sound music = new Sound();
     Sound se = new Sound();
     public final int titleState = 0;
-    public int gameState=1;
+    public int gameState=titleState;
     
 
     // FPS
