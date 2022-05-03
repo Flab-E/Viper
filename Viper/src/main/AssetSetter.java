@@ -23,11 +23,6 @@ public class AssetSetter {
         gp.obj[1].generate(gp, entity);
         gp.obj[1].worldX = gp.obj[1].y*gp.tileSize;
         gp.obj[1].worldY = gp.obj[1].x*gp.tileSize;
-        
-        gp.obj[2] = new OBJ_Bomb();
-        gp.obj[2].generate(gp, entity);
-        gp.obj[2].worldX = gp.obj[1].y*gp.tileSize;
-        gp.obj[2].worldY = gp.obj[1].x*gp.tileSize;
     }
 
     public void genFood(GamePanel gp, Entity entity) {

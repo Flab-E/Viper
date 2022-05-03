@@ -11,7 +11,8 @@ public class Player extends Entity {
 
     GamePanel gp;
     main.KeyHandler keyH;
-    int hasKey;
+    public int hasKey;
+    public int level;
 
     public Player(GamePanel gp, main.KeyHandler keyH){
         this.gp = gp;
@@ -35,6 +36,8 @@ public class Player extends Entity {
         speed = 1;
         speedCounter = 0;
         direction = "down";
+        hasKey = 10;
+        level = 1;
     }
 
     public void getPlayerImage() {
@@ -110,13 +113,25 @@ public class Player extends Entity {
                     speedCounter = 0;
                     speed++;
                 }
+                if (speed%8 == 0) {
+                    level++;
+                }
+                if(level%5 == 0) {
+                    gp.bombNo++;
+                    if(gp.bombNo>9) {
+                        gp.bombNo = 9;
+                    }
+                }
             }
             // check if object is bomb
             if(gp.obj[i] != null && gp.obj[i].name.equals("Bomb")) {
                 gp.obj[i] = null;
                 hasKey--;
-                if(i==1) gp.bomb1Exists = false;
-                if(i==2) gp.bomb2Exists = false;
+                for(int b=1; b<=gp.bombNo; b++){
+                    if(i==b) {
+                        gp.bombsExist[i-1] = false;
+                    }
+                }
                 System.out.println("Score ="+hasKey);
                 if(hasKey<0) {
                     hasKey = 0;

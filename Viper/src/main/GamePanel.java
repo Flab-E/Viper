@@ -8,13 +8,14 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 
 public class GamePanel extends JPanel implements Runnable{
     // JPanel for rendering a GUI Panel
     // Runnable to implement threads for game/render loops
 
     // screen settings
-    final int originalTileSize = 8;                    // 16x16 pixels is the size of tile
+    final int originalTileSize = 12;                    // 16x16 pixels is the size of tile
     final int scale = 3;                                // this is to handle higher resolution systems were tile size becomes too small
     public final int tileSize = originalTileSize * scale;      // 48x48
     public final int maxScreenCol = 16;
@@ -22,8 +23,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenWidth = tileSize * maxScreenCol;                     // 768 pixels ==> 16 tiles
     public final int screenHeight = tileSize * maxScreenRow;                    // 576 pixel ==> 12 tiles
     public boolean foodExists = false;
-    public boolean bomb1Exists = false;
-    public boolean bomb2Exists = false;
+    public int bombNo = 1;
+    public boolean bombsExist[] = new boolean[10];
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;                                                          // for game render loop
@@ -31,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     public TileManager tileM = new TileManager(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
-    public SuperObject obj[] = new SuperObject[5];                             // 5 slots o objects in the game
+    public SuperObject obj[] = new SuperObject[10];                             // 5 slots o objects in the game
     Sound music = new Sound();
     Sound se = new Sound();
 
@@ -51,10 +52,35 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
+    public void scoreScreen(Graphics2D g2) {
+        int x = 0*tileSize;
+        int y = 0*tileSize;
+        int width = 3*tileSize;
+        int height = 1*tileSize;
+        
+        Color c = new Color(0, 0, 0, 100);
+        g2.setColor(c);
+        g2.fillRoundRect(x, y, width, height, 35, 35);
+
+        c = new Color(255, 255, 255);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x+1, y+1, width-2, height-2, 35, 35);
+
+        String scoreStr = "Score:  " + player.hasKey;
+        String levelStr = "Level:  " + player.level;
+        x += tileSize/2;
+        y += tileSize/2;
+        g2.drawString(scoreStr, x, y);
+        g2.drawString(levelStr, x, y+10);
+    }
+
     public void setupGame() {
         foodExists = true;
-        bomb1Exists = true;
-        bomb2Exists = true;
+        bombsExist[0] = true;
+        for(int i = 1; i<bombNo; i++) {
+            bombsExist[i] = false;
+        }
         aSetter.setObject(this, player);
         playMusic(2);
     }
@@ -115,13 +141,11 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         // if bomb does not exist genbomb
-        if(bomb1Exists == false) {
-                bomb1Exists = true;
+        for(int i = 0; i<bombNo; i++){
+            if(bombsExist[i] == false) {
+                bombsExist[i] = true;
                 aSetter.genBomb(this, player, 1);
-        }
-        if(bomb2Exists == false) {
-                bomb2Exists = true;
-                aSetter.genBomb(this, player, 2);
+            }
         }
         player.update();
     }
@@ -137,7 +161,8 @@ public class GamePanel extends JPanel implements Runnable{
                 obj[i].draw(g2, this);
             }
         }
-        player.draw(g2);        
+        player.draw(g2);
+        scoreScreen(g2);       
         
         g2.dispose();
     }
