@@ -32,7 +32,8 @@ public class Player extends Entity {
     public void setDefaultValues() {
         x = 100;
         y = 100;
-        speed = 4;
+        speed = 1;
+        speedCounter = 0;
         direction = "down";
     }
 
@@ -97,11 +98,29 @@ public class Player extends Entity {
     }
     public void pickUpObject(int i) {
         if(i != 999) {
-            gp.playSE(0);
-            gp.obj[i] = null;
-            hasKey++;
-            gp.foodExists = false;
-            System.out.println("Score ="+hasKey);
+            // check if object is food
+            if(gp.obj[i] != null && gp.obj[i].name.equals("Food")) {
+                gp.playSE(0);
+                gp.obj[i] = null;
+                hasKey++;
+                gp.foodExists = false;
+                System.out.println("Score ="+hasKey);
+                this.speedCounter++;
+                if(speedCounter == 4) {
+                    speedCounter = 0;
+                    speed++;
+                }
+            }
+            // check if object is bomb
+            if(gp.obj[i] != null && gp.obj[i].name.equals("Bomb")) {
+                gp.obj[i] = null;
+                hasKey--;
+                gp.bombExists = false;
+                System.out.println("Score ="+hasKey);
+                if(hasKey<0) {
+                    hasKey = 0;
+                }
+            }
         }
     }
 
