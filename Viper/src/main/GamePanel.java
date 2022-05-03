@@ -14,13 +14,14 @@ public class GamePanel extends JPanel implements Runnable{
     // Runnable to implement threads for game/render loops
 
     // screen settings
-    final int originalTileSize = 16;                    // 16x16 pixels is the size of tile
+    final int originalTileSize = 8;                    // 16x16 pixels is the size of tile
     final int scale = 3;                                // this is to handle higher resolution systems were tile size becomes too small
     public final int tileSize = originalTileSize * scale;      // 48x48
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
     public final int screenWidth = tileSize * maxScreenCol;                     // 768 pixels ==> 16 tiles
     public final int screenHeight = tileSize * maxScreenRow;                    // 576 pixel ==> 12 tiles
+    public boolean foodExists = false;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;                                                          // for game render loop
@@ -49,7 +50,8 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setupGame() {
-        aSetter.setObject();
+        foodExists = true;
+        aSetter.setObject(this, player);
         playMusic(2);
     }
 
@@ -100,6 +102,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
+        // if food does not exist
+        if(foodExists == false) {
+            // probabilty of 0.3
+            if(Math.random() < 0.3) {
+                foodExists = true;
+                aSetter.setObject(this, player);
+            }
+        }
         player.update();
     }
 

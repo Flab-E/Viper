@@ -93,7 +93,7 @@ public class TileManager {
 
         for(int y=0; y<12; y++) {
             for(int x=0; x<16; x++){
-                g2.drawImage(tile[this.mapLayout[y][x]].image, x*48, y*48, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(tile[this.mapLayout[y][x]].image, x*gp.tileSize, y*gp.tileSize, gp.tileSize, gp.tileSize, null);
             }
         }
 

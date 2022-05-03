@@ -11,40 +11,41 @@ public class Player extends Entity {
 
     GamePanel gp;
     main.KeyHandler keyH;
-    int ateFood;
+    int hasKey;
 
     public Player(GamePanel gp, main.KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
+
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidAreaDefaultX =solidArea.x;
+        solidAreaDefaultY=solidArea.y;
+        solidArea.width = 8;
+        solidArea.height = 8;
 
         setDefaultValues();
         getPlayerImage();
     }
     
     public void setDefaultValues() {
-        playerLength = 5;
-        this.solidAreas = new Rectangle[playerLength];
-        for(int i = 0; i < playerLength; i++){
-            this.solidAreas[i] = new Rectangle((10-i)*gp.tileSize,5*gp.tileSize,32,32);
-        }
-
-        solidArea = solidAreas[0];
-        x = solidArea.x;
-        y = solidArea.y;
+        x = 100;
+        y = 100;
         speed = 4;
         direction = "down";
     }
 
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/boy_right_2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_down_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/assets/player/snake_right_2.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,8 +99,9 @@ public class Player extends Entity {
         if(i != 999) {
             gp.playSE(0);
             gp.obj[i] = null;
-            ateFood++;
-            System.out.println("Score ="+ateFood);
+            hasKey++;
+            gp.foodExists = false;
+            System.out.println("Score ="+hasKey);
         }
     }
 
@@ -138,9 +140,6 @@ public class Player extends Entity {
                     image = right2;
                 }
                 break;
-        }
-        for(int i=0; i<playerLength; i++) {
-            g2.drawImage(image, solidAreas[i].x, solidAreas[i].y, gp.tileSize, gp.tileSize, null);
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
