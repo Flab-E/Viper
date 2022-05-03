@@ -33,8 +33,12 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public SuperObject obj[] = new SuperObject[10];                             // 5 slots o objects in the game
+    public UI ui =new UI(this);
     Sound music = new Sound();
     Sound se = new Sound();
+    public final int titleState = 0;
+    public int gameState=titleState;
+    
 
     // FPS
     int fps = 60;
@@ -155,6 +159,13 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);                // super => parent, i.e. JPanel
         Graphics2D g2 = (Graphics2D)g;          // typecasting Graphics g to Graphics2D
 
+        // title screen
+        if(gameState==titleState){
+            ui.draw(g2);
+
+        }
+        else{
+            // tile
         tileM.draw(g2);
         for(int i =0; i<obj.length; i++) {
             if(obj[i] != null) {
@@ -163,8 +174,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
         player.draw(g2);
         scoreScreen(g2);       
+        //ui.draw(g2);
         
         g2.dispose();
+
+        }
+
+        
     }
 
     public void playMusic(int i) {
