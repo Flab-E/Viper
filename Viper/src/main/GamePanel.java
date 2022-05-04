@@ -151,7 +151,9 @@ public class GamePanel extends JPanel implements Runnable{
                 aSetter.genBomb(this, player, i+1);
             }
         }
-        player.update();
+        if(gameState==1) {
+            player.update();
+        }
     }
 
     // Graphics is n inbuild awt class used to render/draw objects onto the screen/window
@@ -161,11 +163,11 @@ public class GamePanel extends JPanel implements Runnable{
 
         // title screen
         if(gameState==titleState){
-            ui.draw(g2);
+            ui.draw(g2, player);
 
         }
         else if(gameState==gameOverState) {
-            ui.drawGameOverScreen(g2);
+            ui.drawGameOverScreen(g2, player);
         }
         else{
             // tile

@@ -7,6 +7,9 @@ public class Entity {
     public int x, y;
     public int speed;
     public int speedCounter=0;
+    public int hasKey;
+    public int level;
+    public int highScore;
     
     // for sprite render
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;

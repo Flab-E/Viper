@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Graphics2D;
 
+import entity.Entity;
 import entity.Player;
 
 import java.awt.Color;
@@ -18,7 +19,7 @@ public class UI {
         ariel_40 = new Font("Ariel", Font.PLAIN,28);
     }    
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2, Entity entity){
         g2.setFont(ariel_40);
         g2.setColor(Color.white);
 
@@ -26,7 +27,7 @@ public class UI {
             drawTitleScreen(g2);   
         }
         if(gp.gameState==gp.gameOverState){
-            drawGameOverScreen(g2);   
+            drawGameOverScreen(g2, entity);   
         }
 
     }
@@ -74,7 +75,7 @@ public class UI {
         return x;
     }
 
-    public void drawGameOverScreen(Graphics2D g2) {
+    public void drawGameOverScreen(Graphics2D g2, Entity entity) {
         g2.setColor(new Color(0,0,0,150));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
         String text = "Game Over";
@@ -105,7 +106,7 @@ public class UI {
         }
 
         g2.setFont(g2.getFont().deriveFont(30f));
-        text=String.valueOf(entity.Player.highScore);
+        text = ""+entity.highScore;
         x=getXForCenteredText(text, g2);
         y= gp.tileSize*4;
         g2.drawString("Highscore: "+text, x-85, y+90);

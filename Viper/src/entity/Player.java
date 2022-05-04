@@ -11,9 +11,6 @@ public class Player extends Entity {
 
     GamePanel gp;
     main.KeyHandler keyH;
-    public int hasKey;
-    public int level;
-    public static int highScore;
 
     public Player(GamePanel gp, main.KeyHandler keyH){
         this.gp = gp;
