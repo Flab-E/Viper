@@ -52,6 +52,34 @@ public class KeyHandler implements KeyListener {
             }
 
         }
+        else if(gp.gameState==gp.gameOverState){
+            if(code == KeyEvent.VK_W) {
+                // if 'w' is pressed
+                gp.ui.commandNum--;
+                if(gp.ui.commandNum<0){
+                    gp.ui.commandNum=1;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                // if 's' is pressed
+                gp.ui.commandNum++;
+                if(gp.ui.commandNum>1){
+                    gp.ui.commandNum=0;
+                }
+            }
+            if (code == KeyEvent.VK_ENTER) {
+                if(gp.ui.commandNum ==0){
+                    gp.gameState=1;
+                }
+
+                if(gp.ui.commandNum ==1){
+                    System.exit(0);
+
+                }
+
+            }
+
+        }
         else{
             if(code == KeyEvent.VK_W) {
                 // if 'w' is pressed

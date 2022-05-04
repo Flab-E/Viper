@@ -1,6 +1,9 @@
 package main;
 
 import java.awt.Graphics2D;
+
+import entity.Player;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -21,6 +24,9 @@ public class UI {
 
         if(gp.gameState==gp.titleState){
             drawTitleScreen(g2);   
+        }
+        if(gp.gameState==gp.gameOverState){
+            drawGameOverScreen(g2);   
         }
 
     }
@@ -66,6 +72,45 @@ public class UI {
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
         int x= gp.screenWidth/2 -length/2;
         return x;
+    }
+
+    public void drawGameOverScreen(Graphics2D g2) {
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        String text = "Game Over";
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 98f));
+        g2.setColor(Color.BLACK);
+        int x=getXForCenteredText(text, g2);
+        int y=gp.tileSize*4;
+        g2.drawString(text, x, y);
+
+        g2.setColor(Color.white);
+        g2.drawString(text, x-4, y-4);
+
+        g2.setFont(g2.getFont().deriveFont(40f));
+        text="Retry";
+        x = getXForCenteredText(text, g2);
+        y= gp.tileSize*4;
+        g2.drawString(text, x, y+170);
+        if(commandNum==0){
+            g2.drawString(">", x-40, y+170);
+        }
+
+        text= "Quit";
+        x=getXForCenteredText(text, g2);
+        y +=45;
+        g2.drawString(text, x, y+175);
+        if(commandNum==1){
+            g2.drawString(">", x-40, y+175);
+        }
+
+        g2.setFont(g2.getFont().deriveFont(30f));
+        text=String.valueOf(entity.Player.highScore);
+        x=getXForCenteredText(text, g2);
+        y= gp.tileSize*4;
+        g2.drawString("Highscore: "+text, x-85, y+90);
+
+
     }
 }
 

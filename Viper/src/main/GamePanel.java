@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
     Sound se = new Sound();
     public final int titleState = 0;
     public int gameState=titleState;
+    public int gameOverState = 6;
     
 
     // FPS
@@ -162,6 +163,9 @@ public class GamePanel extends JPanel implements Runnable{
         if(gameState==titleState){
             ui.draw(g2);
 
+        }
+        else if(gameState==gameOverState) {
+            ui.drawGameOverScreen(g2);
         }
         else{
             // tile

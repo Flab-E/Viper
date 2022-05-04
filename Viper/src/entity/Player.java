@@ -13,7 +13,7 @@ public class Player extends Entity {
     main.KeyHandler keyH;
     public int hasKey;
     public int level;
-    public int highScore;
+    public static int highScore;
 
     public Player(GamePanel gp, main.KeyHandler keyH){
         this.gp = gp;
@@ -100,6 +100,7 @@ public class Player extends Entity {
                 case "left": x -= speed; break;
             }
         }
+        
     }
     public void pickUpObject(int i) {
         if(i != 999) {
@@ -136,6 +137,9 @@ public class Player extends Entity {
                     if(i==b) {
                         gp.bombsExist[i-1] = false;
                     }
+                }
+                if(hasKey ==-1){
+                    gp.gameState = gp.gameOverState;
                 }
                 //System.out.println("Score ="+hasKey);
                 if(hasKey<0) {
