@@ -88,8 +88,8 @@ public class GamePanel extends JPanel implements Runnable{
         for(int i = 1; i<bombNo; i++) {
             bombsExist[i] = false;
         }
-        aSetter.setObject(this, player);
         playMusic(2);
+        aSetter.setObject(this, player);
     }
 
     public void startGameThread() {
@@ -131,6 +131,7 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount = 0;
                 timer = 0;
             }
+            
         }
         
         update();
@@ -156,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    
     // Graphics is n inbuild awt class used to render/draw objects onto the screen/window
     public void paintComponent(Graphics g) {
         super.paintComponent(g);                // super => parent, i.e. JPanel
