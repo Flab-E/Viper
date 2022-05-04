@@ -13,23 +13,28 @@ public class KeyHandler implements KeyListener {
         this.gp = gp;
     }
 
+
     // requires 3 methods to be implemented:
     @Override
     public void keyTyped(KeyEvent e) {
         // keyTyped is not required
     }
 
+   
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();              // returns the integer value assigned to each key on the board
 
         if(gp.gameState==gp.titleState){
 
+
             if(code == KeyEvent.VK_W) {
                 // if 'w' is pressed
                 gp.ui.commandNum--;
                 if(gp.ui.commandNum<0){
                     gp.ui.commandNum=1;
+                    
+                    
                 }
             }
             if (code == KeyEvent.VK_S) {
@@ -42,6 +47,8 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER) {
                 if(gp.ui.commandNum ==0){
                     gp.gameState=1;
+                    gp.stopMusic();
+                    gp.playMusic(2);
                 }
 
                 if(gp.ui.commandNum ==1){
@@ -70,6 +77,7 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER) {
                 if(gp.ui.commandNum ==0){
                     gp.gameState=1;
+                    gp.playMusic(2);
                 }
 
                 if(gp.ui.commandNum ==1){

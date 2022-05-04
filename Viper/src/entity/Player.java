@@ -99,6 +99,7 @@ public class Player extends Entity {
         }
         
     }
+    
     public void pickUpObject(int i) {
         if(i != 999) {
             // check if object is food
@@ -115,9 +116,11 @@ public class Player extends Entity {
                 if(speedCounter == 4) {
                     speedCounter = 0;
                     speed++;
+                    gp.playSE(5);
                 }
                 if (hasKey%12 == 0) {
                     level++;
+                    gp.playSE(4);
                 }
                 if(hasKey%20 == 0) {
                     gp.bombNo++;
@@ -138,6 +141,8 @@ public class Player extends Entity {
                 }
                 if(hasKey ==-1){
                     gp.gameState = gp.gameOverState;
+                    gp.stopMusic();
+                    gp.playSE(1);
                 }
                 //System.out.println("Score ="+hasKey);
                 if(hasKey<0) {
