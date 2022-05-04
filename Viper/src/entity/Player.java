@@ -131,6 +131,7 @@ public class Player extends Entity {
             }
             // check if object is bomb
             if(gp.obj[i] != null && gp.obj[i].name.equals("Bomb")) {
+                gp.playSE(3);
                 gp.obj[i] = null;
                 hasKey--;
                 for(int b=1; b<=gp.bombNo; b++){
